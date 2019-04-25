@@ -1,0 +1,57 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.29.4">
+      <projectUrl>https://github.com/anooptv/ProjectManagerAPI/</projectUrl>
+      <displayName></displayName>
+    </com.coravy.hudson.plugins.github.GithubProjectProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@3.9.3">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/anooptv/ProjectManagerAPI.git</url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.29.4">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.msbuild.MsBuildBuilder plugin="msbuild@1.29">
+      <msBuildName>MsBuild</msBuildName>
+      <msBuildFile>C:\Program Files (x86)\Jenkins\workspace\ManagerProjectApi\WebAPI\ProjectManagerAPI.csproj</msBuildFile>
+      <cmdLineArgs>/T:Clean;Build;Package /p:Configuration=Release /p:OutputPath=&quot;obj\Release&quot; /p:PrecompileBeforePublish=true</cmdLineArgs>
+      <buildVariablesAsProperties>false</buildVariablesAsProperties>
+      <continueOnBuildFailure>false</continueOnBuildFailure>
+      <unstableIfWarnings>false</unstableIfWarnings>
+      <doNotUseChcpCommand>false</doNotUseChcpCommand>
+    </hudson.plugins.msbuild.MsBuildBuilder>
+    <hudson.tasks.BatchFile>
+      <command>xcopy &quot;C:\Program Files (x86)\Jenkins\workspace\ManagerProjectApi\WebAPI\obj\Release\_PublishedWebsites\ProjectManagerAPI_Package\ProjectManagerApi.zip&quot; &quot;C:\Anoop\Publish\ProjectManagerAPI&quot;&#xd;
+cd &quot;C:\Anoop\Publish\ProjectManagerAPI&quot;&#xd;
+powershell.exe -NoP -NonI -Command &quot;Expand-Archive &apos;.\ProjectManagerAPI.zip&apos; &apos;.\unziped\&apos;&quot;&#xd;
+xcopy &quot;C:\Anoop\Publish\ProjectManagerAPI\unziped\Content\C_C\Program Files (x86)\Jenkins\workspace\ManagerProjectApi\WebAPI\obj\Release\Package\PackageTmp&quot; &quot;C:\Anoop\Publish\ProjectManagerAPI&quot;</command>
+    </hudson.tasks.BatchFile>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
